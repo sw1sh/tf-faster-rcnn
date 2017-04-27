@@ -93,7 +93,7 @@ def im_detect(sess, net, im):
   # still not sure about the scale, maybe full image it is 1.
   blobs['im_info'] = np.array([[im_blob.shape[1], im_blob.shape[2], im_scales[0]]], dtype=np.float32)
 
-  _, scores, bbox_pred, rois = net.test_image(sess, blobs['data'], blobs['im_info'])
+  _, scores, bbox_pred, rois, embeddings = net.test_image(sess, blobs['data'], blobs['im_info'])
   
   boxes = rois[:, 1:5] / im_scales[0]
   # print(scores.shape, bbox_pred.shape, rois.shape, boxes.shape)
@@ -108,7 +108,7 @@ def im_detect(sess, net, im):
     # Simply repeat the boxes, once for each class
     pred_boxes = np.tile(boxes, (1, scores.shape[1]))
 
-  return scores, pred_boxes
+  return scores, pred_boxes, embeddings
 
 def apply_nms(all_boxes, thresh):
   """Apply non-maximum suppression to all predicted boxes output by the
