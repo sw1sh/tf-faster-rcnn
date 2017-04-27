@@ -13,6 +13,7 @@ from __future__ import print_function
 __sets = {}
 from datasets.pascal_voc import pascal_voc
 from datasets.coco import coco
+from datasets.street2shop import street2shop
 
 import numpy as np
 
@@ -33,6 +34,11 @@ for year in ['2015']:
   for split in ['test', 'test-dev']:
     name = 'coco_{}_{}'.format(year, split)
     __sets[name] = (lambda split=split, year=year: coco(split, year))
+
+# Set up street2shop_<split>
+for split in ['train', 'test']:
+  name = 'street2shop_{}'.format(split)
+  __sets[name] = (lambda split=split, year=year: street2shop(split))
 
 
 def get_imdb(name):
